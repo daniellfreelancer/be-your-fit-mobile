@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, Image } 
 import React, { useEffect, useState } from 'react';
 import googleLogo from '../assets/google.png';
 import facebookLogo from '../assets/facebook.png';
-export default function Signout() {
+export default function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [keyboardOpen, setKeyboardOpen] = useState(false);
@@ -80,52 +80,40 @@ export default function Signout() {
               value={password}
             />
           </View>
-          <TouchableOpacity style={{marginBottom:20}} onPress={() => console.log('Login')}>
-            <Text style={styles.buttonBe}>Registrar</Text>
+
+          <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 20, marginVertical: 40 }}>
+          <TouchableOpacity style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 5,
+            borderColor: '#0583F2',
+            borderWidth: 0.5,
+            paddingVertical: 13,
+            paddingHorizontal: 40,
+            backgroundColor: '#0583F2',
+            borderRadius: 30,
+          }} onPress={() => console.log('Login')}>
+            <Text style={{color:'#F6FBFD', fontFamily:'sans-serif', fontSize:15}} >Registrar</Text>
           </TouchableOpacity>
-
-          {!keyboardOpen && (
-          <View style={{flexDirection: 'row', alignItems: 'baseline', gap: 20, marginVertical:40}}>
-            <TouchableOpacity
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 5,
-                borderColor: '#0583F2',
-                borderWidth: 1,
-                paddingVertical: 5,
-                paddingHorizontal: 20,
-                borderRadius: 30,
-              }}>
-              <Text>Registro con</Text>
-              <Image
-                source={googleLogo}
-                alt="img-logo"
-                style={styles.socialLogo}
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 5,
-                borderColor: '#0583F2',
-                borderWidth: 0.5,
-                paddingVertical: 5,
-                paddingHorizontal: 20,
-                backgroundColor: '#0583F2',
-                borderRadius: 30,
-              }}>
-              <Text>Registro con</Text>
-              <Image
-                source={facebookLogo}
-                alt="img-logo"
-                style={styles.socialLogo}
-              />
-            </TouchableOpacity>
-          </View>
-        )}
+          <TouchableOpacity
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 5,
+              borderColor: '#0583F2',
+              borderWidth: 1,
+              paddingVertical: 5,
+              paddingHorizontal: 20,
+              borderRadius: 30,
+            }}>
+            <Text>Ingresar con</Text>
+            <Image
+              source={googleLogo}
+              alt="img-logo"
+              style={styles.socialLogo}
+            />
+          </TouchableOpacity>
+        </View>
         </View>
     )
 }

@@ -14,7 +14,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Logo from './Logo';
 import Signin from './Signin';
-import Signout from './Signout';
+import Signup from './Signup';
 
 const Login = () => {
   const [data, setData] = useState({});
@@ -80,7 +80,7 @@ const Login = () => {
         style={{
           flex: 1,
           flexDirection:'column',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           alignItems: 'center',
           backgroundColor: '#F6FBFD',
           paddingHorizontal: 20,
@@ -90,7 +90,7 @@ const Login = () => {
         }}>
           <Logo/>
           {
-            loginState ? <Signin/> : <Signout/>
+            loginState ? <Signin/> : <Signup/>
           }
           
 
