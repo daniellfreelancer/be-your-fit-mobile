@@ -21,8 +21,8 @@ export default function Signin() {
           style={{
             textAlign: 'center',
             fontSize: 35,
-            color: '#0D0D0D',
-            fontFamily: 'sans-serif-thin',
+            color: '#EAF205',
+            fontFamily: 'sans-serif',
             marginBottom: 20,
           }}>
           Iniciar sesión
@@ -86,27 +86,28 @@ export default function Signin() {
             flexDirection: 'row',
             alignItems: 'center',
             gap: 5,
-            borderColor: '#0583F2',
+            borderColor: '#EAF205',
             borderWidth: 0.5,
             paddingVertical: 13,
             paddingHorizontal: 40,
-            backgroundColor: '#0583F2',
+            backgroundColor: '#B9BF0B',
             borderRadius: 30,
           }} onPress={() => console.log('Login')}>
-            <Text style={{color:'#F6FBFD', fontFamily:'sans-serif', fontSize:15}} >Ingresar</Text>
+            <Text style={{color:'#262626', fontFamily:'sans-serif', fontSize:15}} >Ingresar</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               gap: 5,
-              borderColor: '#0583F2',
+              borderColor: '#EAF205',
               borderWidth: 1,
               paddingVertical: 5,
               paddingHorizontal: 20,
               borderRadius: 30,
+              
             }}>
-            <Text>Ingresar con</Text>
+            <Text style={{color:'#EAF205'}} >Ingresar con</Text>
             <Image
               source={googleLogo}
               alt="img-logo"

@@ -26,6 +26,7 @@ import HomeScreen from './app/components/HomeScreen';
 import ProfileScreen from './app/components/ProfileScreen';
 import BeYourFit from './app/components/BeYourFitScreen';
 import RecipesScreen from './app/components/RecipesScreen';
+import { Provider } from 'react-redux';
 
 
 function App() {
@@ -57,14 +58,15 @@ function App() {
           tabBarStyle: [
             {
               height: 60,
-              borderTopColor: 'gray'
+              borderTopColor: '#262626',
+              backgroundColor:'#262626',
             }
           ]
 
         })}
 
       >
-        <Tab.Screen name='Inicio' component={HomeScreen} options={{ headerShown: false }} />
+        <Tab.Screen name='Inicio' component={HomeScreen} options={{ headerShown: false, }} />
         <Tab.Screen name='Recetas' component={RecipesScreen} options={{ headerShown: false }} />
         <Tab.Screen name='BeYourFit' component={BeYourFit} options={{ headerShown: false }} />
         <Tab.Screen name='Mi Cuenta' component={ProfileScreen} options={{ headerShown: false }} />

@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Keyboard,
+  ImageBackground,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
@@ -68,7 +69,13 @@ const Login = () => {
   }, []);
 
   return (
-    <SafeAreaView
+
+      <ImageBackground
+            source={require('../assets/backgroundGradient.jpg')}
+            resizeMode="cover"
+            style={{ width: "100%", height: "100%" }}
+      >
+            <SafeAreaView
       style={{
         height: '100%',
         display: 'flex',
@@ -82,11 +89,10 @@ const Login = () => {
           flexDirection:'column',
           justifyContent: 'space-between',
           alignItems: 'center',
-          backgroundColor: '#F6FBFD',
           paddingHorizontal: 20,
           paddingVertical: 20,
           marginVertical: 20,
-          borderRadius: 30,
+
         }}>
           <Logo/>
           {
@@ -138,7 +144,7 @@ const Login = () => {
                 style={{
                   textAlign: 'center',
                   fontSize: 20,
-                  color: '#0D0D0D',
+                  color: '#B9BF0B',
                   fontFamily: 'sans-serif-thin',
                   margin: 20,
                   fontWeight:'bold'
@@ -148,7 +154,7 @@ const Login = () => {
               style={{
                 textAlign: 'center',
                 fontSize: 20,
-                color: '#0D0D0D',
+                color: '#B9BF0B',
                 fontFamily: 'sans-serif-thin',
                 margin: 20,
                 fontWeight:'bold'
@@ -160,7 +166,9 @@ const Login = () => {
           </TouchableOpacity>
         )}
       </View>
-    </SafeAreaView>
+      </SafeAreaView>
+      </ImageBackground>
+
   );
 };
 

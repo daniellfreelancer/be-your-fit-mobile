@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import logoInicial from '../assets/iconBe.png';
+import logoInicial from '../assets/running.png';
 export default function Logo() {
   return (
     <View
@@ -14,7 +14,7 @@ export default function Logo() {
       style={{
         textAlign: 'center',
         fontSize: 70,
-        color: '#0D0D0D',
+        color: '#B9BF0B',
         fontWeight: 'bold',
         fontFamily: 'sans-serif-medium',
       }}>
@@ -26,7 +26,7 @@ export default function Logo() {
         fontSize: 70,
         fontWeight: '200',
         fontFamily: 'sans-serif-thin',
-        color: '#0D0D0D',
+        color: '#B9BF0B',
       }}>
       YourFit
     </Text>
