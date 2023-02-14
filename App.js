@@ -37,31 +37,34 @@ function App() {
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused }) => {
+          tabBarIcon: ({ focused, size }) => {
             let iconName;
 
             if (route.name === 'Inicio') {
               iconName = focused ? require('./app/assets/home-outline.png') : require('./app/assets/home.png');
-            } else if (route.name === 'Mi Cuenta') {
-              iconName = focused ? require('./app/assets/user.png') : require('./app/assets/user-outline.png');
+            } else if (route.name === 'Rutina') {
+              iconName = focused ? require('./app/assets/rutina-outline.png') : require('./app/assets/rutina.png');
             } else if (route.name === 'Login') {
               iconName = focused ? require('./app/assets/enter-outline.png') : require('./app/assets/enter.png');
             } else if (route.name === 'BeYourFit') {
               iconName = focused ? require('./app/assets/runing-outline.png') : require('./app/assets/runing.png');
+
             } else if (route.name === 'Recetas') {
               iconName = focused ? require('./app/assets/cocinando-outline.png') : require('./app/assets/cocinando.png');
             }
 
 
-            return <Image style={{ width: 25, height: 25 }} source={iconName} />;
+            return <Image style={{ width: 30, height: 30 }} source={iconName}  />;
           },
+          tabBarShowLabel: false,
           tabBarStyle: [
             {
-              height: 60,
+              height: 70,
               borderTopColor: '#262626',
               backgroundColor:'#262626',
             }
-          ]
+          ],
+          tabBarHideOnKeyboard: true,
 
         })}
 
@@ -69,8 +72,8 @@ function App() {
         <Tab.Screen name='Inicio' component={HomeScreen} options={{ headerShown: false, }} />
         <Tab.Screen name='Recetas' component={RecipesScreen} options={{ headerShown: false }} />
         <Tab.Screen name='BeYourFit' component={BeYourFit} options={{ headerShown: false }} />
-        <Tab.Screen name='Mi Cuenta' component={ProfileScreen} options={{ headerShown: false }} />
-        <Tab.Screen name='Login' component={Login} options={{ headerShown: false }} />
+        <Tab.Screen name='Rutina' component={ProfileScreen} options={{ headerShown: false }} />
+        <Tab.Screen name='Login' component={Login} options={{ headerShown: false,  }} />
       </Tab.Navigator>
 
     </NavigationContainer>

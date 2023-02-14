@@ -102,7 +102,7 @@ export default function Signin() {
               gap: 5,
               borderColor: '#EAF205',
               borderWidth: 1,
-              paddingVertical: 5,
+              paddingVertical: 8,
               paddingHorizontal: 20,
               borderRadius: 30,
               
