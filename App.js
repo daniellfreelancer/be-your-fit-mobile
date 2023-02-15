@@ -23,10 +23,11 @@ import Ionic from 'react-native-vector-icons/Ionicons'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './app/components/HomeScreen';
-import ProfileScreen from './app/components/ProfileScreen';
+import TrainingScreen from './app/components/TrainingeScreen';
 import BeYourFit from './app/components/BeYourFitScreen';
 import RecipesScreen from './app/components/RecipesScreen';
 import { Provider } from 'react-redux';
+import store from './app/data/store';
 
 
 function App() {
@@ -34,9 +35,12 @@ function App() {
   const Tab = createBottomTabNavigator();
 
   return (
+    <Provider store={store}>
     <NavigationContainer>
       <Tab.Navigator
+      initialRouteName='Login'
         screenOptions={({ route }) => ({
+        
           tabBarIcon: ({ focused, size }) => {
             let iconName;
 
@@ -48,7 +52,6 @@ function App() {
               iconName = focused ? require('./app/assets/enter-outline.png') : require('./app/assets/enter.png');
             } else if (route.name === 'BeYourFit') {
               iconName = focused ? require('./app/assets/runing-outline.png') : require('./app/assets/runing.png');
-
             } else if (route.name === 'Recetas') {
               iconName = focused ? require('./app/assets/cocinando-outline.png') : require('./app/assets/cocinando.png');
             }
@@ -72,18 +75,13 @@ function App() {
         <Tab.Screen name='Inicio' component={HomeScreen} options={{ headerShown: false, }} />
         <Tab.Screen name='Recetas' component={RecipesScreen} options={{ headerShown: false }} />
         <Tab.Screen name='BeYourFit' component={BeYourFit} options={{ headerShown: false }} />
-        <Tab.Screen name='Rutina' component={ProfileScreen} options={{ headerShown: false }} />
+        <Tab.Screen name='Rutina' component={TrainingScreen} options={{ headerShown: false }} />
         <Tab.Screen name='Login' component={Login} options={{ headerShown: false,  }} />
       </Tab.Navigator>
 
     </NavigationContainer>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  navigatorSection: {
-    backgroundColor: 'blue'
-  }
-});
 
 export default App;

@@ -7,7 +7,7 @@ import {
   Keyboard,
   ImageBackground,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   GoogleSignin,
   statusCodes,
@@ -70,37 +70,37 @@ const Login = () => {
 
   return (
 
-      <ImageBackground
-            source={require('../assets/background.jpg')}
-            resizeMode="cover"
-            style={{ width: "100%", height: "100%" }}
-      >
-            <SafeAreaView
-      style={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-      <View
+    <ImageBackground
+      source={require('../assets/background.jpg')}
+      resizeMode="cover"
+      style={{ width: "100%", height: "100%" }}
+    >
+      <SafeAreaView
         style={{
+          height: '100%',
           flex: 1,
-          flexDirection:'column',
-          justifyContent: 'space-between',
+          flexDirection: 'column',
           alignItems: 'center',
-          paddingHorizontal: 20,
-          paddingVertical: 20,
-          marginVertical: 20,
-
+          justifyContent: 'center',
         }}>
-          <Logo/>
-          {
-            loginState ? <Signin/> : <Signup/>
-          }
-          
+        <View
+          style={{
+            // flex: 1,
+            // flexDirection: 'column',
+            // justifyContent: 'center',
+            // alignItems: 'center',
+            // paddingHorizontal: 20,
+            // paddingVertical: 20,
+            // marginVertical: 20,
 
-        {/* <View
+          }}>
+          <Logo />
+          {
+            loginState ? <Signin /> : <Signup />
+          }
+
+
+          {/* <View
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <Button
               color="mediumaquamarine"
@@ -137,37 +137,38 @@ const Login = () => {
 
 
 
-        {!keyboardOpen && (
-          <TouchableOpacity onPress={()=>setLoginState(!loginState)} >
-            {
-              loginState ? (            <Text
-                style={{
-                  textAlign: 'center',
-                  fontSize: 20,
-                  color: '#B9BF0B',
-                  fontFamily: 'sans-serif-thin',
-                  margin: 20,
-                  fontWeight:'bold'
-                }}>
-                Aún sin cuenta? Registrate
-              </Text>) : (            <Text
-              style={{
-                textAlign: 'center',
-                fontSize: 20,
-                color: '#B9BF0B',
-                fontFamily: 'sans-serif-thin',
-                margin: 20,
-                fontWeight:'bold'
-              }}>
-              Tienes cuenta? Inicia Sesión
-            </Text>)
-            }
+          {!keyboardOpen && (
+            <TouchableOpacity onPress={() => setLoginState(!loginState)} >
+              {
+                loginState ? (<Text
+                  style={{
+                    textAlign: 'center',
+                    fontSize: 20,
+                    color: '#B9BF0B',
+                    fontFamily: 'sans-serif-thin',
+                    margin: 20,
+                    fontWeight: 'bold'
+                  }}>
+                  Aún sin cuenta? Registrate
+                </Text>) : (<Text
+                  style={{
+                    textAlign: 'center',
+                    fontSize: 20,
+                    color: '#B9BF0B',
+                    fontFamily: 'sans-serif-thin',
+                    margin: 20,
+                    fontWeight: 'bold'
+                  }}>
+                  Tienes cuenta? Inicia Sesión
+                </Text>)
+              }
 
-          </TouchableOpacity>
-        )}
-      </View>
+            </TouchableOpacity>
+          )}
+
+        </View>
       </SafeAreaView>
-      </ImageBackground>
+    </ImageBackground>
 
   );
 };

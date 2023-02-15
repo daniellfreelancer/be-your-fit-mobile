@@ -7,7 +7,7 @@ export default function Logo() {
     style={{
       flexDirection: 'row',
       alignItems: 'baseline',
-      marginTop: 10,
+      marginTop: 20,
       marginBottom: 50,
     }}>
     <Text

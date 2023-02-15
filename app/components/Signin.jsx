@@ -1,52 +1,18 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, Image } from 'react-native'
 import React, { useEffect, useState } from 'react';
 import googleLogo from '../assets/google.png';
-import facebookLogo from '../assets/facebook.png';
+
+
 export default function Signin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [keyboardOpen, setKeyboardOpen] = useState(false);
 
-  Keyboard.addListener('keyboardDidShow', () => {
-    setKeyboardOpen(true);
-  });
-
-  Keyboard.addListener('keyboardDidHide', () => {
-    setKeyboardOpen(false);
-  });
   return (
-    <View style={{ flexDirection: 'column', alignItems: 'center', gap: 10 }}>
-      <View>
-        <Text
-          style={{
-            textAlign: 'center',
-            fontSize: 35,
-            color: '#EAF205',
-            fontFamily: 'sans-serif',
-            marginBottom: 20,
-          }}>
-          Iniciar sesión
-        </Text>
-      </View>
-      <View
-        style={{
-          borderBottomColor: '#F5FCFF',
-          backgroundColor: '#FFFFFF',
-          borderRadius: 30,
-          width: 300,
-          height: 50,
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingVertical: 8,
-        }}>
+    <View style={styles.globalView}>
+      <Text style={styles.loginText}>Iniciar sesión</Text>
+      <View style={styles.viewInput}>
         <TextInput
-          style={{
-            height: 45,
-            marginLeft: 16,
-            borderBottomColor: '#d3d3d3',
-            flex: 1,
-            paddingVertical: 8,
-          }}
+          style={styles.textInput}
           placeholder="Email"
           keyboardType="email-address"
           autoCapitalize="none"
@@ -54,86 +20,110 @@ export default function Signin() {
           value={email}
         />
       </View>
-      <View
-        style={{
-          borderBottomColor: '#F5FCFF',
-          backgroundColor: '#FFFFFF',
-          borderRadius: 30,
-          borderBottomWidth: 1,
-          width: 300,
-          height: 50,
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingVertical: 8,
-        }}>
+      <View style={styles.viewInput}>
         <TextInput
-          style={{
-            height: 45,
-            marginLeft: 16,
-            borderBottomColor: '#d3d3d3',
-            flex: 1,
-            paddingVertical: 8,
-          }}
+          style={styles.textInput}
           placeholder="Password"
           secureTextEntry={true}
           onChangeText={text => setPassword(text)}
           value={password}
         />
       </View>
-
-        <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 20, marginVertical: 40 }}>
-          <TouchableOpacity style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 5,
-            borderColor: '#EAF205',
-            borderWidth: 0.5,
-            paddingVertical: 13,
-            paddingHorizontal: 40,
-            backgroundColor: '#B9BF0B',
-            borderRadius: 30,
-          }} onPress={() => console.log('Login')}>
-            <Text style={{color:'#262626', fontFamily:'sans-serif', fontSize:15}} >Ingresar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 5,
-              borderColor: '#EAF205',
-              borderWidth: 1,
-              paddingVertical: 8,
-              paddingHorizontal: 20,
-              borderRadius: 30,
-              
-            }}>
-            <Text style={{color:'#EAF205'}} >Ingresar con</Text>
-            <Image
-              source={googleLogo}
-              alt="img-logo"
-              style={styles.socialLogo}
-            />
-          </TouchableOpacity>
-        </View>
+      <View style={styles.globalView2}>
+        <TouchableOpacity style={styles.touchIn} onPress={() => console.log('Login')}>
+          <Text style={styles.textIn} >Ingresar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.touchGo}>
+          <Text style={styles.textGo} >Ingresar con</Text>
+          <Image
+            source={googleLogo}
+            alt="img-logo"
+            style={styles.socialLogo}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  buttonBe: {
-    backgroundColor: '#0583F2',
-    paddingVertical: 8,
-    paddingHorizontal: 30,
-    borderRadius: 20,
-    marginVertical: 20,
-    color: 'white',
-    fontSize: 20,
-    fontFamily: 'sans-serif-thin',
-    width: 150,
+  globalView: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10
+  },
+  globalView2: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 10,
+    marginVertical: 20
+  },
+  loginText: {
     textAlign: 'center',
+    fontSize: 35,
+    color: '#EAF205',
+    fontFamily: 'sans-serif',
+    marginBottom: 20,
+    marginTop: 20
   },
   socialLogo: {
     width: 30,
     height: 30,
   },
+  viewInput: {
+    borderBottomColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 30,
+    width: 300,
+    height: 45,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    marginVertical: 2
+  },
+  textInput: {
+    height: 45,
+    marginLeft: 16,
+    borderBottomColor: '#d3d3d3',
+    flex: 1,
+    paddingVertical: 8,
+  },
+  touchIn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
+    borderColor: '#EAF205',
+    borderWidth: 1,
+    height: 45,
+    width: '40%',
+    backgroundColor: '#B9BF0B',
+    borderRadius: 30,
+  },
+  textIn: {
+    color: '#262626',
+    fontFamily: 'sans-serif',
+    fontSize: 15,
+
+  },
+  touchGo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
+    borderColor: '#EAF205',
+    borderWidth: 1,
+    height: 45,
+    width: '40%',
+    borderRadius: 30,
+
+  },
+  textGo: {
+    color: '#EAF205',
+    fontFamily: 'sans-serif',
+    fontSize: 15,
+
+  }
 })
