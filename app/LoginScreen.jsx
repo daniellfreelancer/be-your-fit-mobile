@@ -13,12 +13,12 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Logo from './Logo';
-import Signin from './Signin';
-import Signup from './Signup';
+import Logo from './components/Logo';
+import Signin from './components/Signin';
+import Signup from './components/Signup';
 
 const Login = () => {
-  const [data, setData] = useState({});
+
   const [loginState, setLoginState] = useState(true)
 
   const [keyboardOpen, setKeyboardOpen] = useState(false);
@@ -31,47 +31,11 @@ const Login = () => {
     setKeyboardOpen(false);
   });
 
-  const storeData = async value => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('@storage_Key', jsonValue);
-      setData(jsonValue);
-    } catch (e) {
-      // saving error
-    }
-  };
-
-  const getData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('@storage_Key');
-      if (jsonValue !== null) {
-        console.log('DATA init');
-        console.log();
-        console.log('DATA end');
-
-        return JSON.parse(jsonValue);
-      } else {
-        console.log('sin data');
-      }
-      return;
-    } catch (e) {
-      // error reading value
-    }
-  };
-
-  useEffect(() => {
-    if (AsyncStorage.getItem('@storage_Key')) {
-      console.log('Data llena');
-      setData(AsyncStorage.getItem('@storage_Key'));
-    } else {
-      console.log('data vacia');
-    }
-  }, []);
 
   return (
 
     <ImageBackground
-      source={require('../assets/background.jpg')}
+      source={require('./assets/background.jpg')}
       resizeMode="cover"
       style={{ width: "100%", height: "100%" }}
     >
@@ -83,17 +47,7 @@ const Login = () => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <View
-          style={{
-            // flex: 1,
-            // flexDirection: 'column',
-            // justifyContent: 'center',
-            // alignItems: 'center',
-            // paddingHorizontal: 20,
-            // paddingVertical: 20,
-            // marginVertical: 20,
-
-          }}>
+        <View>
           <Logo />
           {
             loginState ? <Signin /> : <Signup />

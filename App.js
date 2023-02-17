@@ -1,33 +1,15 @@
-import React, { Component } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  Button,
-  Image
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import Login from './app/components/LoginScreen';
-import Ionic from 'react-native-vector-icons/Ionicons'
+import React from 'react';
+import {  Image} from 'react-native';
+import Login from './app/LoginScreen';
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './app/components/HomeScreen';
-import TrainingScreen from './app/components/TrainingeScreen';
-import BeYourFit from './app/components/BeYourFitScreen';
-import RecipesScreen from './app/components/RecipesScreen';
+import HomeScreen from './app//HomeScreen';
+import TrainingScreen from './app/TrainingeScreen';
+import BeYourFit from './app/BeYourFitScreen';
+import RecipesScreen from './app/RecipesScreen';
 import { Provider } from 'react-redux';
 import store from './app/data/store';
+import { ToastProvider } from 'react-native-toast-notifications'
 
 
 function App() {
@@ -35,7 +17,20 @@ function App() {
   const Tab = createBottomTabNavigator();
 
   return (
+    <ToastProvider 
+    placement='top'
+    duration={3000}
+    animationType='zoom-in'
+    offsetTop={10}
+    swipeEnabled={true}
+    style={{
+      width:'80%',
+      height:50
+    }}
+
+    >
     <Provider store={store}>
+     
     <NavigationContainer>
       <Tab.Navigator
       initialRouteName='Login'
@@ -80,7 +75,9 @@ function App() {
       </Tab.Navigator>
 
     </NavigationContainer>
+    
     </Provider>
+    </ToastProvider>
   );
 }
 

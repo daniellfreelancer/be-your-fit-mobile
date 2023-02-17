@@ -1,20 +1,66 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, Image, Alert } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, Image, Alert, Button } from 'react-native'
 import React, { useEffect, useState } from 'react';
 import googleLogo from '../assets/google.png';
-import facebookLogo from '../assets/facebook.png';
 import { useSignUpUserMutation } from '../data/userApi';
 import { useDispatch } from 'react-redux'
+import auth from '@react-native-firebase/auth';
+import {  GoogleSignin,  GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import { useToast } from "react-native-toast-notifications";
+
 export default function Signup() {
+
+  const clientH1 = "1025685732537-q5d08uknp7varhlat51csfe94t9vvtr8.apps.googleusercontent.com";
+  const clientH2 = "1025685732537-pg22av19ur5btsjn8cdmvnvau5gnvr4t.apps.googleusercontent.com";
+
+  const [userDataFirebase, setUserDataFirebase] = useState({
+    name: 'null',
+    email: '',
+    password: '',
+    from:'google',
+    role:'user',
+    imgUrl: ''
+  })
+
+  const myAlert = useToast()
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:clientH2
+    });
+
+  }, [])
+const onGoogleButtonPress = async () => {
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    // Get the users ID token
+    const { idToken } = await GoogleSignin.signIn();
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  }
+
+
     const [signUpUser] = useSignUpUserMutation()
     const dispatch = useDispatch()
+    
 
     const [userInfo, setUserInfo] = useState({
       name: '',
-      email: '',
+      email: null,
       password: '',
-      from:'app',
+      from:'form',
       role:'user',
       imgUrl: 'http://images7.memedroid.com/images/UPLOADED894/5f0502441774c.jpeg'
+    })
+
+    const [userGmail, setUserGmail] = useState({
+      name: null,
+      email: '',
+      password: '',
+      from:'google',
+      role:'user',
+      imgUrl: ''
     })
 
     const { name, email, password } = userInfo;
@@ -29,14 +75,15 @@ export default function Signup() {
       if (res.error) {
         let dataError = res.error;
         let dataMessage = dataError.data;
-        Alert.alert(res.error.data.message)
+        myAlert.show(res.error.data.message, {type:'normal'})
         console.log(res.error)
       } else {
         let dataResponse = res.data;
         let dataSuccess = dataResponse.message;
         console.log(dataResponse)
         setUserInfo({name:'',email:'', password:''})
-        Alert.alert("Success")
+        myAlert.show(dataSuccess, {type:'success'})
+        // Alert.alert("Success")
       }
     })
     .catch((error) => {
@@ -44,6 +91,89 @@ export default function Signup() {
     });
 
 }
+
+const handleGoogle = async () => {
+  GoogleSignin.configure({
+    androidClientId:'1025685732537-0f70mj46mn3832dv0uk0322rv8mg6oq9.apps.googleusercontent.com',
+  });
+  GoogleSignin.hasPlayServices()
+    .then(hasPlayService => {
+      if (hasPlayService) {
+        GoogleSignin.signIn()
+          .then(userInfo => {
+            setUserGmail({
+              name: userInfo.user.name,
+              email: userInfo.user.email,
+              password: userInfo.user.id,
+              from:'google',
+              role:'user',
+              imgUrl: 'http://images7.memedroid.com/images/UPLOADED894/5f0502441774c.jpeg'
+            })
+            console.log(userInfo)
+
+          })
+          .catch(e => {
+            console.log('ERROR IS: ' + JSON.stringify(e));
+          });
+      }
+    })
+    .catch(e => {
+      console.log('ERROR IS: ' + JSON.stringify(e));
+    });
+}
+
+  async function handleGoogleSignUp(){
+    GoogleSignin.configure({
+      androidClientId:'1025685732537-0f70mj46mn3832dv0uk0322rv8mg6oq9.apps.googleusercontent.com',
+    });
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      let photo = userInfo.user.photo === null ? 'http://images7.memedroid.com/images/UPLOADED894/5f0502441774c.jpeg' : userInfo.user.photo; 
+      setUserGmail({
+        name:userInfo.user.name,
+        email: userInfo.user.email,
+        password: userInfo.user.id,
+        from:'google',
+        role:'user',
+        imgUrl: photo
+      })
+      if (userGmail.name !== null ){
+        signUpUser(userGmail).then((res) => {
+          if (res.error) {
+            let dataError = res.error;
+            let dataMessage = dataError.data;
+            Alert.alert(res.error.data.message)
+            console.log(res.error)
+          } else {
+            let dataResponse = res.data;
+            let dataSuccess = dataResponse.message;
+            console.log(dataResponse)
+            setUserInfo({name:'',email:'', password:''})
+            Alert.alert("Success")
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      }
+
+
+      
+    } catch (error) {
+       console.log('Error al iniciar sesión con Google', error);
+    }
+  }
+
+  const signOutFirebase = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await auth().signOut();
+      console.log('Signout Succesfull')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
     return (
       <View style={styles.globalView}>
@@ -56,6 +186,7 @@ export default function Signup() {
           placeholder="Usuario"
           keyboardType="email-address"
           autoCapitalize="none"
+          autoCompleteType="off"
         />
       </View>
       <View style={styles.viewInput}>
@@ -66,6 +197,8 @@ export default function Signup() {
           autoCapitalize="none"
           onChangeText={value => handleOnChangeText(value, 'email')}
           value={email}
+          autoCompleteType="off"
+
         />
       </View>
       <View style={styles.viewInput}>
@@ -75,13 +208,53 @@ export default function Signup() {
           secureTextEntry={true}
           onChangeText={value => handleOnChangeText(value, 'password')}
           value={password}
+          autoCompleteType="off"
         />
       </View>
+      <View>
+          <Button onPress={()=>{myAlert.show("Hola soy toast",{type:'success'})}} title='Signout firebase'/>
+        </View>
       <View style={styles.globalView2}>
           <TouchableOpacity style={styles.touchIn} onPress={handleSignUp}>
             <Text style={styles.textIn}>Registrar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.touchGo}>
+          <TouchableOpacity 
+          style={styles.touchGo} 
+          onPress={ () => onGoogleButtonPress()
+            .then((res)=>{
+            console.log(res.user)
+            setUserDataFirebase({
+              name: res.user.displayName,
+              email: res.user.email,
+              password: res.user.uid,
+              from:'google',
+              role:'user',
+              imgUrl: 'http://images7.memedroid.com/images/UPLOADED894/5f0502441774c.jpeg'
+            })
+            if(userDataFirebase.email !== null){
+              signUpUser(userDataFirebase)
+              .then((res) => {
+                if (res.error) {
+                  let dataError = res.error;
+                  let dataMessage = dataError.data;
+                  Alert.alert(res.error.data.message)
+                  console.log(res.error)
+                } else {
+                  let dataResponse = res.data;
+                  let dataSuccess = dataResponse.message;
+                  console.log(dataResponse)
+                  setUserInfo({name:'',email:'', password:''})
+                  Alert.alert("Success")
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+            }
+
+            }).catch((error)=>{
+              console.log(error)
+              })} >
             <Text style={styles.textGo} >Registro con</Text>
             <Image
               source={googleLogo}
@@ -89,7 +262,9 @@ export default function Signup() {
               style={styles.socialLogo}
             />
           </TouchableOpacity>
+
         </View>
+
     </View>
     )
 }

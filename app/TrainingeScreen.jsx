@@ -33,7 +33,7 @@ export default function TrainingScreen() {
 
 
     <ImageBackground
-      source={require('../assets/background02.jpg')}
+      source={require('./assets/background02.jpg')}
       resizeMode="cover"
       style={{ width: "100%", height: "100%" }}
     >
