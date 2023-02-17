@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1025685732537",
+    "project_id": "beyourfit",
+    "storage_bucket": "beyourfit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025685732537:android:d7a8bfabd3aa972d586f68",
+        "android_client_info": {
+          "package_name": "com.danielapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025685732537-0f70mj46mn3832dv0uk0322rv8mg6oq9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.danielapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1025685732537-pg22av19ur5btsjn8cdmvnvau5gnvr4t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL9vJGZcbGMtmphdXYqZyYTWhjFqXVpts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1025685732537-pg22av19ur5btsjn8cdmvnvau5gnvr4t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
