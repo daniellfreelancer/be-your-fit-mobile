@@ -1,11 +1,94 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, Image } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, Image, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react';
 import googleLogo from '../assets/google.png';
-
-
+import { useSignInUserMutation } from '../data/userApi';
+import { useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useToast } from "react-native-toast-notifications";
+import { setUserLogin } from '../data/userAuth';
+import auth from '@react-native-firebase/auth';
+import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 export default function Signin() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
+  const toast = useToast()
+
+  const [signInUser] = useSignInUserMutation()
+  const dispatch = useDispatch()
+
+  const [userInfo, setUserInfo] = useState({
+    email: '',
+    password: '',
+    from: "form"
+  });
+
+  const { email, password } = userInfo;
+
+  const handleOnChangeText = (value, fieldName) => {
+    setUserInfo({ ...userInfo, [fieldName]: value });
+  };
+  const clientH2 = "1025685732537-pg22av19ur5btsjn8cdmvnvau5gnvr4t.apps.googleusercontent.com";
+
+  const [userDataFirebase, setUserDataFirebase] = useState({
+    email: '',
+    password: '',
+    from: 'google',
+  })
+
+  const myAlert = useToast()
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: clientH2
+    });
+  }, [])
+
+  const onGoogleButtonPress = async () => {
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    // Get the users ID token
+    const { idToken } = await GoogleSignin.signIn();
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  }
+
+  const handleSignIn = async () => {
+
+    signInUser(userInfo)
+      .then((res) => {
+        if (res.error) {
+          let dataError = res.error;
+          let dataMessage = dataError.data;
+          Alert.alert(dataMessage)
+          toast.show(dataMessage, {type: 'normal'})
+
+        } else {
+
+          let dataResponse = res.data;
+          let dataSuccess = dataResponse.message;
+          toast.show(dataSuccess,{ type: 'success'})
+          dispatch(setUserLogin(res.data.response.user))
+          AsyncStorage.setItem('token',JSON.stringify(res.data.response.token))
+
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      const myToken = await AsyncStorage.getItem('token')
+
+    setUserInfo({
+      email: '',
+      password: '',
+      from: "form"
+    })
+
+  }
+
+
+
 
   return (
     <View style={styles.globalView}>
@@ -16,7 +99,7 @@ export default function Signin() {
           placeholder="Email"
           keyboardType="email-address"
           autoCapitalize="none"
-          onChangeText={text => setEmail(text)}
+          onChangeText={value => handleOnChangeText(value, 'email')}
           value={email}
         />
       </View>
@@ -25,15 +108,50 @@ export default function Signin() {
           style={styles.textInput}
           placeholder="Password"
           secureTextEntry={true}
-          onChangeText={text => setPassword(text)}
+          onChangeText={value => handleOnChangeText(value, 'password')}
           value={password}
         />
       </View>
       <View style={styles.globalView2}>
-        <TouchableOpacity style={styles.touchIn} onPress={() => console.log('Login')}>
+        <TouchableOpacity style={styles.touchIn} onPress={handleSignIn}>
           <Text style={styles.textIn} >Ingresar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.touchGo}>
+        <TouchableOpacity 
+        style={styles.touchGo}
+        onPress={() => onGoogleButtonPress()
+          .then((res) => {
+            console.log(res.user)
+            let userFirebase = {
+              email: res.user.email,
+              password: res.user.uid,
+              from: 'google',
+            }
+            if (userDataFirebase.email !== null) {
+              signInUser(userFirebase)
+                .then((res) => {
+                  if (res.error) {
+                    let dataError = res.error;
+                    let dataMessage = dataError.data;
+                    toast.show(dataMessage, {type:'danger'})
+                    // Alert.alert(res.error.data.message)
+                    console.log(res.error)
+                  } else {
+                    let dataResponse = res.data;
+                    let dataSuccess = dataResponse.message;
+                    console.log(dataSuccess)
+                    toast.show(dataSuccess, {type:'success'})
+                    // Alert.alert("Success")
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }
+
+          }).catch((error) => {
+            console.log(error)
+          })}
+        >
           <Text style={styles.textGo} >Ingresar con</Text>
           <Image
             source={googleLogo}
@@ -66,7 +184,7 @@ const styles = StyleSheet.create({
     color: '#EAF205',
     fontFamily: 'sans-serif',
     marginBottom: 20,
-    marginTop: 20
+    marginTop: 60
   },
   socialLogo: {
     width: 30,
@@ -76,7 +194,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#F5FCFF',
     backgroundColor: '#FFFFFF',
     borderRadius: 30,
-    width: 300,
+    width: '85%',
     height: 45,
     flexDirection: 'row',
     alignItems: 'center',

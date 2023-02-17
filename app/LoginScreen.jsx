@@ -8,11 +8,6 @@ import {
   ImageBackground,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Logo from './components/Logo';
 import Signin from './components/Signin';
 import Signup from './components/Signup';
@@ -42,57 +37,19 @@ const Login = () => {
       <SafeAreaView
         style={{
           height: '100%',
-          flex: 1,
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
         }}>
-        <View>
+        <View style={{
+          flex:1,
+          flexDirection:'column',
+          alignItems:'center',
+          justifyContent: 'center',
+        }} >
           <Logo />
           {
             loginState ? <Signin /> : <Signup />
           }
-
-
-          {/* <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Button
-              color="mediumaquamarine"
-              style={{borderRadius: 6}}
-              title={'Crear cuenta con Google'}
-              onPress={() => {
-                GoogleSignin.configure({
-                  androidClientId:
-                    '663413782261-7k306od0to5lcfmfn5l9aaievjbpftst.apps.googleusercontent.com',
-                });
-                GoogleSignin.hasPlayServices()
-                  .then(hasPlayService => {
-                    if (hasPlayService) {
-                      GoogleSignin.signIn()
-                        .then(userInfo => {
-                          console.log(JSON.stringify(userInfo));
-                          let user = JSON.stringify(userInfo)
-                          storeData(user)
-
-                        })
-                        .catch(e => {
-                          console.log('ERROR IS: ' + JSON.stringify(e));
-                        });
-                    }
-                  })
-                  .catch(e => {
-                    console.log('ERROR IS: ' + JSON.stringify(e));
-                  });
-              }}
-            />
-            <Text> {data?.user}</Text>
-          </View> */}
-
-
-
-
           {!keyboardOpen && (
-            <TouchableOpacity onPress={() => setLoginState(!loginState)} >
+            <TouchableOpacity style={{marginBottom:50}} onPress={() => setLoginState(!loginState)} >
               {
                 loginState ? (<Text
                   style={{
@@ -130,17 +87,5 @@ const Login = () => {
 export default Login;
 
 const styles = StyleSheet.create({
-  buttonBe: {
-    backgroundColor: '#0583F2',
-    paddingVertical: 8,
-    paddingHorizontal: 30,
-    borderRadius: 20,
-    marginVertical: 20,
-    color: 'white',
-    fontSize: 20,
-    fontFamily: 'sans-serif-thin',
-    width: 150,
-    textAlign: 'center',
-  },
 
 });

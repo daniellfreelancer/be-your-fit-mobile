@@ -26,7 +26,6 @@ const authSlice = createSlice({
             state.imgUrl = action.payload.imgUrl
             state.weight = action.payload.weight
             state.size = action.payload.size
-            state.friends = action.payload.friends
             state.logged = true
         },
         setUserLogout: (state, action) =>{
@@ -38,7 +37,6 @@ const authSlice = createSlice({
             state.imgUrl = null
             state.weight = null
             state.size = null
-            state.friends = null
             state.logged = false
         }
     }

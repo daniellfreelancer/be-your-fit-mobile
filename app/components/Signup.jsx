@@ -4,7 +4,7 @@ import googleLogo from '../assets/google.png';
 import { useSignUpUserMutation } from '../data/userApi';
 import { useDispatch } from 'react-redux'
 import auth from '@react-native-firebase/auth';
-import {  GoogleSignin,  GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { useToast } from "react-native-toast-notifications";
 
 export default function Signup() {
@@ -16,8 +16,8 @@ export default function Signup() {
     name: 'null',
     email: '',
     password: '',
-    from:'google',
-    role:'user',
+    from: 'google',
+    role: 'user',
     imgUrl: ''
   })
 
@@ -25,11 +25,10 @@ export default function Signup() {
 
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId:clientH2
+      webClientId: clientH2
     });
-
   }, [])
-const onGoogleButtonPress = async () => {
+  const onGoogleButtonPress = async () => {
     // Check if your device supports Google Play
     await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
     // Get the users ID token
@@ -41,129 +40,57 @@ const onGoogleButtonPress = async () => {
   }
 
 
-    const [signUpUser] = useSignUpUserMutation()
-    const dispatch = useDispatch()
-    
+  const [signUpUser] = useSignUpUserMutation()
+  const dispatch = useDispatch()
 
-    const [userInfo, setUserInfo] = useState({
-      name: '',
-      email: null,
-      password: '',
-      from:'form',
-      role:'user',
-      imgUrl: 'http://images7.memedroid.com/images/UPLOADED894/5f0502441774c.jpeg'
-    })
 
-    const [userGmail, setUserGmail] = useState({
-      name: null,
-      email: '',
-      password: '',
-      from:'google',
-      role:'user',
-      imgUrl: ''
-    })
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    email: null,
+    password: '',
+    from: 'form',
+    role: 'user',
+    imgUrl: 'http://images7.memedroid.com/images/UPLOADED894/5f0502441774c.jpeg'
+  })
 
-    const { name, email, password } = userInfo;
+  const [userGmail, setUserGmail] = useState({
+    name: null,
+    email: null,
+    password: '',
+    from: 'google',
+    role: 'user',
+    imgUrl: ''
+  })
 
-    const handleOnChangeText = (value, fieldName) => {
-      setUserInfo({ ...userInfo, [fieldName]: value });
+  const { name, email, password } = userInfo;
+
+  const handleOnChangeText = (value, fieldName) => {
+    setUserInfo({ ...userInfo, [fieldName]: value });
   };
 
-  const handleSignUp = async ()  =>{
+  const handleSignUp = async () => {
     signUpUser(userInfo)
-    .then((res) => {
-      if (res.error) {
-        let dataError = res.error;
-        let dataMessage = dataError.data;
-        myAlert.show(res.error.data.message, {type:'normal'})
-        console.log(res.error)
-      } else {
-        let dataResponse = res.data;
-        let dataSuccess = dataResponse.message;
-        console.log(dataResponse)
-        setUserInfo({name:'',email:'', password:''})
-        myAlert.show(dataSuccess, {type:'success'})
-        // Alert.alert("Success")
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-}
-
-const handleGoogle = async () => {
-  GoogleSignin.configure({
-    androidClientId:'1025685732537-0f70mj46mn3832dv0uk0322rv8mg6oq9.apps.googleusercontent.com',
-  });
-  GoogleSignin.hasPlayServices()
-    .then(hasPlayService => {
-      if (hasPlayService) {
-        GoogleSignin.signIn()
-          .then(userInfo => {
-            setUserGmail({
-              name: userInfo.user.name,
-              email: userInfo.user.email,
-              password: userInfo.user.id,
-              from:'google',
-              role:'user',
-              imgUrl: 'http://images7.memedroid.com/images/UPLOADED894/5f0502441774c.jpeg'
-            })
-            console.log(userInfo)
-
-          })
-          .catch(e => {
-            console.log('ERROR IS: ' + JSON.stringify(e));
-          });
-      }
-    })
-    .catch(e => {
-      console.log('ERROR IS: ' + JSON.stringify(e));
-    });
-}
-
-  async function handleGoogleSignUp(){
-    GoogleSignin.configure({
-      androidClientId:'1025685732537-0f70mj46mn3832dv0uk0322rv8mg6oq9.apps.googleusercontent.com',
-    });
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      let photo = userInfo.user.photo === null ? 'http://images7.memedroid.com/images/UPLOADED894/5f0502441774c.jpeg' : userInfo.user.photo; 
-      setUserGmail({
-        name:userInfo.user.name,
-        email: userInfo.user.email,
-        password: userInfo.user.id,
-        from:'google',
-        role:'user',
-        imgUrl: photo
+      .then((res) => {
+        if (res.error) {
+          let dataError = res.error;
+          let dataMessage = dataError.data;
+          myAlert.show(res.error.data.message, { type: 'normal' })
+          console.log(res.error)
+        } else {
+          let dataResponse = res.data;
+          let dataSuccess = dataResponse.message;
+          console.log(dataResponse)
+          setUserInfo({ name: '', email: '', password: '' })
+          myAlert.show(dataSuccess, { type: 'success' })
+          // Alert.alert("Success")
+        }
       })
-      if (userGmail.name !== null ){
-        signUpUser(userGmail).then((res) => {
-          if (res.error) {
-            let dataError = res.error;
-            let dataMessage = dataError.data;
-            Alert.alert(res.error.data.message)
-            console.log(res.error)
-          } else {
-            let dataResponse = res.data;
-            let dataSuccess = dataResponse.message;
-            console.log(dataResponse)
-            setUserInfo({name:'',email:'', password:''})
-            Alert.alert("Success")
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      }
+      .catch((error) => {
+        console.log(error);
+      });
 
-
-      
-    } catch (error) {
-       console.log('Error al iniciar sesión con Google', error);
-    }
   }
+
 
   const signOutFirebase = async () => {
     try {
@@ -175,9 +102,9 @@ const handleGoogle = async () => {
     }
   }
 
-    return (
-      <View style={styles.globalView}>
-        <Text style={styles.loginText}>Registro</Text>
+  return (
+    <View style={styles.globalView}>
+      <Text style={styles.loginText}>Registro</Text>
       <View style={styles.viewInput}>
         <TextInput
           style={styles.textInput}
@@ -211,62 +138,68 @@ const handleGoogle = async () => {
           autoCompleteType="off"
         />
       </View>
-      <View>
-          <Button onPress={()=>{myAlert.show("Hola soy toast",{type:'success'})}} title='Signout firebase'/>
-        </View>
+      <Button title="logout" onPress={signOutFirebase} />
       <View style={styles.globalView2}>
-          <TouchableOpacity style={styles.touchIn} onPress={handleSignUp}>
-            <Text style={styles.textIn}>Registrar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity 
-          style={styles.touchGo} 
-          onPress={ () => onGoogleButtonPress()
-            .then((res)=>{
-            console.log(res.user)
-            setUserDataFirebase({
-              name: res.user.displayName,
-              email: res.user.email,
-              password: res.user.uid,
-              from:'google',
-              role:'user',
-              imgUrl: 'http://images7.memedroid.com/images/UPLOADED894/5f0502441774c.jpeg'
-            })
-            if(userDataFirebase.email !== null){
-              signUpUser(userDataFirebase)
-              .then((res) => {
-                if (res.error) {
-                  let dataError = res.error;
-                  let dataMessage = dataError.data;
-                  Alert.alert(res.error.data.message)
-                  console.log(res.error)
-                } else {
-                  let dataResponse = res.data;
-                  let dataSuccess = dataResponse.message;
-                  console.log(dataResponse)
-                  setUserInfo({name:'',email:'', password:''})
-                  Alert.alert("Success")
-                }
+        <TouchableOpacity style={styles.touchIn} onPress={handleSignUp}>
+          <Text style={styles.textIn}>Registrar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.touchGo}
+          onPress={() => onGoogleButtonPress()
+            .then((res) => {
+              console.log(res.user)
+              let userFirebase = {
+                  name: res.user.displayName,
+                  email: res.user.email,
+                  password: res.user.uid,
+                  from: 'google',
+                  role: 'user',
+                  imgUrl: 'http://images7.memedroid.com/images/UPLOADED894/5f0502441774c.jpeg'}
+              setUserDataFirebase({
+                name: res.user.displayName,
+                email: res.user.email,
+                password: res.user.uid,
+                from: 'google',
+                role: 'user',
+                imgUrl: 'http://images7.memedroid.com/images/UPLOADED894/5f0502441774c.jpeg'
               })
-              .catch((error) => {
-                console.log(error);
-              });
-            }
 
-            }).catch((error)=>{
+              if (userFirebase.email !== null) {
+                signUpUser(userFirebase)
+                  .then((res) => {
+                    if (res.error) {
+                      let dataError = res.error;
+                      let dataMessage = dataError.data;
+                      myAlert.show(res.error.data.message, { type: 'danger' })
+                      console.log(res.error)
+                    } else {
+                      let dataResponse = res.data;
+                      let dataSuccess = dataResponse.message;
+                      console.log(dataResponse)
+                      setUserInfo({ name: '', email: '', password: '' })
+                      myAlert.show(dataSuccess, { type: 'success' })
+                    }
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+              }
+
+            }).catch((error) => {
               console.log(error)
-              })} >
-            <Text style={styles.textGo} >Registro con</Text>
-            <Image
-              source={googleLogo}
-              alt="img-logo"
-              style={styles.socialLogo}
-            />
-          </TouchableOpacity>
+            })} >
+          <Text style={styles.textGo} >Registro con</Text>
+          <Image
+            source={googleLogo}
+            alt="img-logo"
+            style={styles.socialLogo}
+          />
+        </TouchableOpacity>
 
-        </View>
+      </View>
 
     </View>
-    )
+  )
 }
 
 const styles = StyleSheet.create({
@@ -289,7 +222,7 @@ const styles = StyleSheet.create({
     color: '#EAF205',
     fontFamily: 'sans-serif',
     marginBottom: 20,
-    marginTop: 20
+    marginTop: 50
   },
   socialLogo: {
     width: 30,
@@ -299,7 +232,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#F5FCFF',
     backgroundColor: '#FFFFFF',
     borderRadius: 30,
-    width: 300,
+    width: '85%',
     height: 45,
     flexDirection: 'row',
     alignItems: 'center',

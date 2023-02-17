@@ -33,7 +33,7 @@ function App() {
      
     <NavigationContainer>
       <Tab.Navigator
-      initialRouteName='Login'
+      initialRouteName='Inicio'
         screenOptions={({ route }) => ({
         
           tabBarIcon: ({ focused, size }) => {
