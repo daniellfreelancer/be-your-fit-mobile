@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { useToast } from "react-native-toast-notifications";
+import Logo from './Logo';
 
 export default function Signup() {
 
@@ -103,9 +104,10 @@ export default function Signup() {
   }
 
   return (
-    <View style={styles.globalView}>
+    <View style={styles.globalViewSignup}>
+      <Logo/>
       <Text style={styles.loginText}>Registro</Text>
-      <View style={styles.viewInput}>
+      {/* <View style={styles.viewInput}>
         <TextInput
           style={styles.textInput}
           value={name}
@@ -115,7 +117,7 @@ export default function Signup() {
           autoCapitalize="none"
           autoCompleteType="off"
         />
-      </View>
+      </View> */}
       <View style={styles.viewInput}>
         <TextInput
           style={styles.textInput}
@@ -138,7 +140,8 @@ export default function Signup() {
           autoCompleteType="off"
         />
       </View>
-      <Button title="logout" onPress={signOutFirebase} />
+      
+      {/* <Button title="logout" onPress={signOutFirebase} /> */}
       <View style={styles.globalView2}>
         <TouchableOpacity style={styles.touchIn} onPress={handleSignUp}>
           <Text style={styles.textIn}>Registrar</Text>
@@ -203,26 +206,25 @@ export default function Signup() {
 }
 
 const styles = StyleSheet.create({
-  globalView: {
+  globalViewSignup: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10
+    gap:10
   },
   globalView2: {
     flexDirection: 'row',
     alignItems: 'baseline',
-    gap: 10,
-    marginVertical: 20
+    paddingTop:40,
+    gap:10
   },
   loginText: {
     textAlign: 'center',
     fontSize: 35,
     color: '#EAF205',
     fontFamily: 'sans-serif',
-    marginBottom: 20,
-    marginTop: 50
+    marginBottom: 40,
+    marginTop: 40
   },
   socialLogo: {
     width: 30,

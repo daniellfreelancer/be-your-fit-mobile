@@ -8,6 +8,7 @@ import { useToast } from "react-native-toast-notifications";
 import { setUserLogin } from '../data/userAuth';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import Logo from './Logo';
 export default function Signin() {
 
   const toast = useToast()
@@ -92,74 +93,77 @@ export default function Signin() {
 
   return (
     <View style={styles.globalView}>
-      <Text style={styles.loginText}>Iniciar sesión</Text>
-      <View style={styles.viewInput}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Email"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          onChangeText={value => handleOnChangeText(value, 'email')}
-          value={email}
-        />
-      </View>
-      <View style={styles.viewInput}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Password"
-          secureTextEntry={true}
-          onChangeText={value => handleOnChangeText(value, 'password')}
-          value={password}
-        />
-      </View>
-      <View style={styles.globalView2}>
-        <TouchableOpacity style={styles.touchIn} onPress={handleSignIn}>
-          <Text style={styles.textIn} >Ingresar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-        style={styles.touchGo}
-        onPress={() => onGoogleButtonPress()
-          .then((res) => {
-            console.log(res.user)
-            let userFirebase = {
-              email: res.user.email,
-              password: res.user.uid,
-              from: 'google',
-            }
-            if (userDataFirebase.email !== null) {
-              signInUser(userFirebase)
-                .then((res) => {
-                  if (res.error) {
-                    let dataError = res.error;
-                    let dataMessage = dataError.data;
-                    toast.show(dataMessage, {type:'danger'})
-                    // Alert.alert(res.error.data.message)
-                    console.log(res.error)
-                  } else {
-                    let dataResponse = res.data;
-                    let dataSuccess = dataResponse.message;
-                    console.log(dataSuccess)
-                    toast.show(dataSuccess, {type:'success'})
-                    // Alert.alert("Success")
-                  }
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            }
-
-          }).catch((error) => {
-            console.log(error)
-          })}
-        >
-          <Text style={styles.textGo} >Ingresar con</Text>
-          <Image
-            source={googleLogo}
-            alt="img-logo"
-            style={styles.socialLogo}
+      <Logo/>
+      
+        <Text style={styles.loginText}>Iniciar sesión</Text>
+        <View style={styles.viewInput}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            onChangeText={value => handleOnChangeText(value, 'email')}
+            value={email}
           />
-        </TouchableOpacity>
-      </View>
+        </View>
+        <View style={styles.viewInput}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Password"
+            secureTextEntry={true}
+            onChangeText={value => handleOnChangeText(value, 'password')}
+            value={password}
+          />
+        </View>
+        <View style={styles.globalView2}>
+          <TouchableOpacity style={styles.touchIn} onPress={handleSignIn}>
+            <Text style={styles.textIn} >Ingresar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+          style={styles.touchGo}
+          onPress={() => onGoogleButtonPress()
+            .then((res) => {
+              console.log(res.user)
+              let userFirebase = {
+                email: res.user.email,
+                password: res.user.uid,
+                from: 'google',
+              }
+              if (userDataFirebase.email !== null) {
+                signInUser(userFirebase)
+                  .then((res) => {
+                    if (res.error) {
+                      let dataError = res.error;
+                      let dataMessage = dataError.data;
+                      toast.show(dataMessage, {type:'danger'})
+                      // Alert.alert(res.error.data.message)
+                      console.log(res.error)
+                    } else {
+                      let dataResponse = res.data;
+                      let dataSuccess = dataResponse.message;
+                      console.log(dataSuccess)
+                      toast.show(dataSuccess, {type:'success'})
+                      // Alert.alert("Success")
+                    }
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+              }
+
+            }).catch((error) => {
+              console.log(error)
+            })}
+          >
+            <Text style={styles.textGo} >Ingresar con</Text>
+            <Image
+              source={googleLogo}
+              alt="img-logo"
+              style={styles.socialLogo}
+            />
+          </TouchableOpacity>
+        </View>
+
     </View>
   )
 }
@@ -169,22 +173,21 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10
+    gap:10
   },
   globalView2: {
     flexDirection: 'row',
     alignItems: 'baseline',
-    gap: 10,
-    marginVertical: 20
+    paddingTop:40,
+    gap:10
   },
   loginText: {
     textAlign: 'center',
     fontSize: 35,
     color: '#EAF205',
     fontFamily: 'sans-serif',
-    marginBottom: 20,
-    marginTop: 60
+    marginBottom: 40,
+    marginTop: 40
   },
   socialLogo: {
     width: 30,

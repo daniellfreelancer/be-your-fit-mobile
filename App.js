@@ -26,11 +26,9 @@ function App() {
     style={{
       width:'80%',
       height:50
-    }}
-
-    >
+    }}>
     <Provider store={store}>
-     
+
     <NavigationContainer>
       <Tab.Navigator
       initialRouteName='Inicio'
@@ -71,7 +69,7 @@ function App() {
         <Tab.Screen name='Recetas' component={RecipesScreen} options={{ headerShown: false }} />
         <Tab.Screen name='BeYourFit' component={BeYourFit} options={{ headerShown: false }} />
         <Tab.Screen name='Rutina' component={TrainingScreen} options={{ headerShown: false }} />
-        <Tab.Screen name='Login' component={Login} options={{ headerShown: false,  }} />
+        <Tab.Screen name='Login' component={Login} options={{ headerShown: false }} />
       </Tab.Navigator>
 
     </NavigationContainer>
